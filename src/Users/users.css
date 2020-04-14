@@ -1,0 +1,48 @@
+.users {
+	text-align: center;
+	width: 100%;
+}
+
+.avatar {
+	width: 20px;
+	height: 20px;
+}
+
+.usersTable {
+	width: 80%;
+	border: 1px solid black;
+	border-collapse: collapse;
+	text-align: center;
+}
+
+.usersTable th {
+	font-weight: bold;
+}
+
+.usersTable tr {
+	line-height: 50px;
+}
+
+.usersTabletr :nth-child(even) {
+	background-color: lightyellow;
+}
+
+.paginationTable {
+	width: 80%;
+	text-align: center;
+}
+
+.searchTd {
+	text-align: left;
+	width: 30%;
+}
+
+.paginationTd {
+	text-align: right;
+	width: 70%;
+}
+
+.searchTd input {
+	width: 100%;
+	height: 25px;
+}
