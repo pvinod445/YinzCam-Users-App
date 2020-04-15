@@ -118,7 +118,7 @@ class UserFollowers extends Component {
 				<div className='userFollowers'>
 					<Link className='backButton' to={{
 								pathname: '/users',
-								search: '?currentPage='+ this.state.currentPageNumber
+								search: '?page='+ this.state.currentPageNumber
 							}} >Back</Link>
 
 					<h1>Repos: {this.state.user}</h1>
