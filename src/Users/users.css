@@ -15,16 +15,41 @@
 	text-align: center;
 }
 
+.avatar {
+	border-radius: 50%;
+	width: 45px;
+	height: 45px;
+	vertical-align:middle;
+}
+
+.sortImage {
+	width: 3%;
+	height: 3%;
+	padding-left: 14px;
+	vertical-align: middle;
+}
+
 .usersTable th {
 	font-weight: bold;
+	width: 50%;
+	border-bottom: 1px solid lightgrey;
+}
+
+.usersTable tr th:nth-child(2) {
+	text-align: left;
+}
+
+.usersTable tr td:nth-child(2) {
+	text-align: left;
 }
 
 .usersTable tr {
 	line-height: 50px;
 }
 
-.usersTabletr :nth-child(even) {
-	background-color: lightyellow;
+.usersTable tr:nth-child(even) {
+	border-left: 1px solid black;
+	background-color: lightblue;
 }
 
 .paginationTable {
@@ -45,4 +70,14 @@
 .searchTd input {
 	width: 100%;
 	height: 25px;
+}
+
+.userLink {
+	text-decoration: none;
+	color: black;
+}
+
+.userLink:hover {
+	color: orangered;
+	font-size: 25px;
 }

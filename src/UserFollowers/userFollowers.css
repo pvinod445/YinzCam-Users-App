@@ -1,0 +1,23 @@
+.userFollowers {
+	text-align: center;
+}
+
+.userFollowers table {
+	width: 80%;
+	border: 1px solid black;
+	border-collapse: collapse;
+	text-align: center;
+}
+
+.userFollowers tr {
+	line-height: 50px;
+}
+
+.userFollowers tr:nth-child(odd) {
+	background-color: lightsteelblue;
+}
+
+.userFollowers td:nth-child(1),
+.userFollowers td:nth-child(2) {
+	border-right: 1px solid black;
+}

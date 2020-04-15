@@ -1,4 +1,4 @@
-ul {
+.paginationUl ul {
 	list-style: none;
 	padding: 0;
 	margin: 0;
@@ -6,19 +6,27 @@ ul {
 	text-align: right;
 }
 
-li {
+.paginationUl li {
 	display: inline-block;
-	margin: 6px;
-	text-decoration: underline;
+	margin-right: 6px;
 }
 
-a {
+.paginationUl a {
 	text-decoration: none;
 	color: black;
 }
 
-a:hover,
-a:active,
-a.active {
-	color: #fa923f;
+.paginationUl a:hover {
+	color: green;
+}
+
+.paginationUl a:active,
+.paginationUl a.active {
+	color: orangered;
+	font-size: 25px;
+	text-decoration: underline;
+}
+
+.diabled-link {
+	pointer-events: none;
 }

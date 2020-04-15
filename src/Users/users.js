@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import queryString from 'query-string'
 
 import './users.css';
 import Pagination from '../Pagination/pagination';
+import sortImage from '../sort.png';
 
 class Users extends Component {
 	state = {
@@ -12,7 +14,8 @@ class Users extends Component {
 		currentPageNumber: 1,
 		loadPage: false,
 		searchText: '',
-		filterLogins: []
+		filterLogins: [],
+		currentSort: ''
 	}
 
 	constructor(props) {
@@ -40,8 +43,8 @@ class Users extends Component {
 				const dat = response.data;
 				let users = [];
 				dat.forEach(eachUser => {
-						return users[eachUser.login] = eachUser;
-					});
+					return users[eachUser.login] = eachUser;
+				});
 
 				this.setState({users: users, loadPage: true});
 
@@ -50,7 +53,6 @@ class Users extends Component {
 				}
 			})
 			.catch(error => {
-				// this.setState({error: true});
 			});
 		}
 	}
@@ -67,14 +69,44 @@ class Users extends Component {
 		this.setState({filterLogins: results});
 	}
 
+	sortHandler = () => {
+		let users = this.state.users;
+		let sortedUsers = [];
+		let keys = Object.keys(users);
+
+		if(this.state.currentSort == '' || this.state.currentSort == 'desc') {
+			keys.sort((a, b) => {
+				return a.toLowerCase().localeCompare(b.toLowerCase());
+			});
+			this.setState({currentSort:'asc'});
+		}
+		else {
+			keys.sort((a, b) => {
+				return b.toLowerCase().localeCompare(a.toLowerCase());
+			});
+			this.setState({currentSort:'desc'});
+		}
+
+		keys.forEach(user => {
+			return sortedUsers[user] = users[user];
+		})
+
+		this.setState({users: sortedUsers});
+	}
+
 	render() {
 		let usersObj = Object.values(this.state.users);
-		let users = usersObj.map(user => {
+		let users = usersObj.map((user, index) => {
 
 			if(this.state.filterLogins.length == 0 ||  (this.state.filterLogins.length > 0 && this.state.filterLogins.indexOf(user.login) > -1)) {
 				return (
-					<tr>
-						<td>{user.login}</td>
+					<tr key={index}>
+						<td>
+							<Link className='userLink' to={{
+								pathname: '/userFollowers',
+								search: '?login=' + user.login
+							}} >{user.login}</Link>
+						</td>
 						<td>
 							<img src={user.avatar_url} className="avatar" />
 						</td>
@@ -83,28 +115,37 @@ class Users extends Component {
 			}
 		});
 
-		return (
-			<div className="users">
-				<h1>Total Users in page: {this.state.currentPageNumber}</h1>
-				<table className='paginationTable' align='center'>
-					<tr>
-						<td className='searchTd'>
-							<input type='text' placeholder='search' onChange={this.searchHandler.bind(this)} value={this.state.searchText} />
-						</td>
-						<td className='paginationTd'>
-							<Pagination comp='users' currentPageNumber={this.state.currentPageNumber} />
-						</td>
-					</tr>
-				</table>
-				<table className='usersTable' align='center'>
-					<tr>
-						<th>User</th>
-						<th>Avatar</th>
-					</tr>
-					{users}
-				</table>
-			</div>
-		)
+		if(usersObj.length == 0) {
+			return <h1 style={{color:'red'}}>No Users Found on Page {this.state.currentPageNumber}</h1>;
+		}
+		else {
+			return (
+				<div className="users">
+					<h1>Total Users in page {this.state.currentPageNumber}</h1>
+					<table className='paginationTable' align='center'>
+						<tr>
+							<td className='searchTd'>
+								<input type='text' placeholder='search' onChange={this.searchHandler.bind(this)} value={this.state.searchText} />
+							</td>
+							<td className='paginationTd'>
+								<Pagination comp='users' currentPageNumber={this.state.currentPageNumber} />
+							</td>
+						</tr>
+					</table>
+					<table className='usersTable' align='center'>
+						<tr>
+							<th onClick={this.sortHandler}>
+								User
+								<img src={sortImage} className='sortImage' />
+							</th>
+							<th>Avatar</th>
+						</tr>
+						{users}
+					</table>
+				</div>
+			);
+		}
+
 	}
 }
 
