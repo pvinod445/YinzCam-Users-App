@@ -9,7 +9,7 @@
 }
 
 .usersTable {
-	width: 80%;
+	width: 60%;
 	border: 1px solid black;
 	border-collapse: collapse;
 	text-align: center;
@@ -35,14 +35,6 @@
 	border-bottom: 1px solid lightgrey;
 }
 
-.usersTable tr th:nth-child(2) {
-	text-align: left;
-}
-
-.usersTable tr td:nth-child(2) {
-	text-align: left;
-}
-
 .usersTable tr {
 	line-height: 50px;
 }
@@ -53,7 +45,7 @@
 }
 
 .paginationTable {
-	width: 80%;
+	width: 60%;
 	text-align: center;
 }
 

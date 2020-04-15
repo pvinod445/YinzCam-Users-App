@@ -21,3 +21,13 @@
 .userFollowers td:nth-child(2) {
 	border-right: 1px solid black;
 }
+
+.repoTable a{
+	text-decoration: none;
+	color: black;
+}
+
+.repoTable a:hover{
+	color: orangered;
+	font-size: 25px;
+}

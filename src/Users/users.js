@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import queryString from 'query-string'
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
 
 import './users.css';
 import Pagination from '../Pagination/pagination';
@@ -100,17 +102,17 @@ class Users extends Component {
 
 			if(this.state.filterLogins.length == 0 ||  (this.state.filterLogins.length > 0 && this.state.filterLogins.indexOf(user.login) > -1)) {
 				return (
-					<tr key={index}>
-						<td>
+					<Tr key={index}>
+						<Td>
 							<Link className='userLink' to={{
 								pathname: '/userFollowers',
 								search: '?login=' + user.login
 							}} >{user.login}</Link>
-						</td>
-						<td>
+						</Td>
+						<Td>
 							<img src={user.avatar_url} className="avatar" />
-						</td>
-					</tr>
+						</Td>
+					</Tr>
 				)
 			}
 		});
@@ -122,26 +124,32 @@ class Users extends Component {
 			return (
 				<div className="users">
 					<h1>Total Users in page {this.state.currentPageNumber}</h1>
-					<table className='paginationTable' align='center'>
-						<tr>
-							<td className='searchTd'>
-								<input type='text' placeholder='search' onChange={this.searchHandler.bind(this)} value={this.state.searchText} />
-							</td>
-							<td className='paginationTd'>
-								<Pagination comp='users' currentPageNumber={this.state.currentPageNumber} />
-							</td>
-						</tr>
-					</table>
-					<table className='usersTable' align='center'>
-						<tr>
-							<th onClick={this.sortHandler}>
-								User
-								<img src={sortImage} className='sortImage' />
-							</th>
-							<th>Avatar</th>
-						</tr>
-						{users}
-					</table>
+					<Table className='paginationTable' align='center'>
+						<Tbody>
+							<Tr>
+								<Td className='searchTd'>
+									<input type='text' placeholder='search' onChange={this.searchHandler.bind(this)} value={this.state.searchText} />
+								</Td>
+								<Td className='paginationTd'>
+									<Pagination comp='users' currentPageNumber={this.state.currentPageNumber} />
+								</Td>
+							</Tr>
+						</Tbody>
+					</Table>
+					<Table className='usersTable' align='center'>
+						<Thead>
+							<Tr>
+								<Th onClick={this.sortHandler}>
+									User
+									<img src={sortImage} className='sortImage' />
+								</Th>
+								<Th>Avatar</Th>
+							</Tr>
+						</Thead>
+						<Tbody>
+							{users}
+						</Tbody>
+					</Table>
 				</div>
 			);
 		}
