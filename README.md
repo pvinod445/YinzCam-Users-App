@@ -1,11 +1,11 @@
 # YinzCam-Users-App
 YinzCam Users App
 
-#### Steps to download and run the app
-1) Clone the Project
-2) Navigate to Project folder and run the command 
-`npm install`
-3) Run the command `npm start`
+#### Steps to download and run the Application
+  <br/>`git clone <git project url>`
+  <br/>`cd YinzCam-Users-App`
+  <br/> `npm install`
+  <br/> `npm start`
 
 #### Few Testing Steps:
 1) Navigate to the url `http://localhost:3000/`
