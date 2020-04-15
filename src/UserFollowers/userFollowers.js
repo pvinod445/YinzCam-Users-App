@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import queryString from 'query-string'
 import { Table, Tbody, Tr, Td } from 'react-super-responsive-table'
@@ -12,11 +13,12 @@ class UserFollowers extends Component {
 		repos: [],
 		error: false,
 		user: null,
-		loadingText: ''
+		loadingText: '',
+		currentPageNumber: ''
 	}
 	componentDidMount() {
 		const queryParams = queryString.parse(this.props.location.search)
-		this.setState({user: queryParams.login});
+		this.setState({user: queryParams.login, currentPageNumber: queryParams.currentPage});
 		this.setState({loadingText: 'Loading Followers for User ' + queryParams.login});
 
 		axios.get('https://api.github.com/users/' + queryParams.login)
@@ -53,9 +55,9 @@ class UserFollowers extends Component {
 		const followers = this.state.followers;
 		const repos = this.state.repos;
 		let followersHtml = followers.map((follower, index) => {
-			if(index %3 == 0) {
-				const secondColumn = (index + 1) < followers.length ? <td>{followers[index + 1]}</td> : <Td></Td>;
-				const thirdColumn = (index + 2) < followers.length ? <td>{followers[index + 2]}</td> : <Td></Td>;
+			if(index %3 === 0) {
+				const secondColumn = (index + 1) < followers.length ? <Td>{followers[index + 1]}</Td> : <Td></Td>;
+				const thirdColumn = (index + 2) < followers.length ? <Td>{followers[index + 2]}</Td> : <Td></Td>;
 				return (
 					<Tr key={index}>
 						<Td>{follower}</Td>
@@ -64,25 +66,31 @@ class UserFollowers extends Component {
 					</Tr>
 				)
 			}
+			else {
+				return null;
+			}
 		});
 
 		let reposHtml = repos.map((repo, index) => {
-			if(index %3 == 0) {
-				const secondColumn = (index + 1) < repos.length ? <Td><a href={repos[index + 1].owner.html_url + '/' + repos[index + 1].name} target="_blank">{repos[index + 1].name}</a></Td> : <Td></Td>;
-				const thirdColumn = (index + 2) < repos.length ? <Td><a href={repos[index + 2].owner.html_url + '/' + repos[index + 2].name} target="_blank">{repos[index + 2].name}</a></Td> : <Td></Td>;
+			if(index %3 === 0) {
+				const secondColumn = (index + 1) < repos.length ? <Td><a href={repos[index + 1].owner.html_url + '/' + repos[index + 1].name} target="_blank" rel="noopener noreferrer">{repos[index + 1].name}</a></Td> : <Td></Td>;
+				const thirdColumn = (index + 2) < repos.length ? <Td><a href={repos[index + 2].owner.html_url + '/' + repos[index + 2].name} target="_blank" rel="noopener noreferrer">{repos[index + 2].name}</a></Td> : <Td></Td>;
 				return (
 					<Tr key={index}>
 						<Td>
-							<a href={repo.owner.html_url + '/' + repo.name} target="_blank">{repo.name}</a>
+							<a href={repo.owner.html_url + '/' + repo.name} target="_blank" rel="noopener noreferrer">{repo.name}</a>
 						</Td>
 						{secondColumn}
 						{thirdColumn}
 					</Tr>
 				)
 			}
+			else {
+				return null;
+			}
 		})
 
-		if(followers.length == 0) {
+		if(followers.length === 0) {
 			if(this.state.loadingText.length > 0) {
 				return <h1 style={{color:'red'}}>{this.state.loadingText}</h1>;
 			}
@@ -108,12 +116,19 @@ class UserFollowers extends Component {
 			);
 			return (
 				<div className='userFollowers'>
-					<h1>List of repos for user: {this.state.user}</h1>
+					<Link className='backButton' to={{
+								pathname: '/users',
+								search: '?currentPage='+ this.state.currentPageNumber
+							}} >Back</Link>
+
+					<h1>Repos: {this.state.user}</h1>
 					{reposTable}
 					<br />
 					<br />
-					<h1>List of followers for user: {this.state.user}</h1>
+					<h1>Followers: {this.state.user}</h1>
 					{followersTable}
+					<br />
+					<br />
 				</div>
 			);
 		}

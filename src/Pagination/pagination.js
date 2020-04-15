@@ -6,7 +6,7 @@ import './pagination.css';
 class Pagination extends Component {
 	render() {
 		let paginationArr = [];
-		let disableClass = this.props.currentPageNumber == 1 ? 'diabled-link' : '';
+		let disableClass = +this.props.currentPageNumber === 1 ? 'diabled-link' : '';
 
 		paginationArr.push(
 					<li key='prev'>
@@ -17,7 +17,7 @@ class Pagination extends Component {
 					</li>
 		);
 		for(let i=+this.props.currentPageNumber; i < +(this.props.currentPageNumber) + 5; i++) {
-			let styleClass = this.props.currentPageNumber == i ? 'active' : '';
+			let styleClass = +this.props.currentPageNumber === i ? 'active' : '';
 
 			paginationArr.push(
 							<li key={i}>

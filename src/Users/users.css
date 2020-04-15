@@ -33,6 +33,7 @@
 	font-weight: bold;
 	width: 50%;
 	border-bottom: 1px solid lightgrey;
+	background-color: orange;
 }
 
 .usersTable tr {

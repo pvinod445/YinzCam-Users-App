@@ -20,10 +20,6 @@ class Users extends Component {
 		currentSort: ''
 	}
 
-	constructor(props) {
-		super(props);
-	}
-
 	componentDidMount() {
 		this.loadUsers();
 	}
@@ -34,7 +30,7 @@ class Users extends Component {
 	loadUsers() {
 		const queryParams = queryString.parse(this.props.location.search)
 
-		if(!this.state.loadPage || ('page' in queryParams && queryParams.page != this.state.currentPageNumber)) {
+		if(!this.state.loadPage || ('page' in queryParams && (+queryParams.page) !== (+this.state.currentPageNumber))) {
 			let page = this.state.currentPageNumber;
 			if('page' in queryParams) {
 				page = queryParams.page;
@@ -66,7 +62,7 @@ class Users extends Component {
 		let userLogins = Object.keys(users);
 
 		const results = userLogins.filter(login => {
-			return login.indexOf(event.target.value) != -1
+			return login.indexOf(event.target.value) !== -1
 		});
 		this.setState({filterLogins: results});
 	}
@@ -76,7 +72,7 @@ class Users extends Component {
 		let sortedUsers = [];
 		let keys = Object.keys(users);
 
-		if(this.state.currentSort == '' || this.state.currentSort == 'desc') {
+		if(this.state.currentSort === '' || this.state.currentSort === 'desc') {
 			keys.sort((a, b) => {
 				return a.toLowerCase().localeCompare(b.toLowerCase());
 			});
@@ -99,25 +95,27 @@ class Users extends Component {
 	render() {
 		let usersObj = Object.values(this.state.users);
 		let users = usersObj.map((user, index) => {
-
-			if(this.state.filterLogins.length == 0 ||  (this.state.filterLogins.length > 0 && this.state.filterLogins.indexOf(user.login) > -1)) {
+			if(this.state.filterLogins.length === 0 ||  (this.state.filterLogins.length > 0 && this.state.filterLogins.indexOf(user.login) > -1)) {
 				return (
 					<Tr key={index}>
 						<Td>
 							<Link className='userLink' to={{
 								pathname: '/userFollowers',
-								search: '?login=' + user.login
+								search: '?login=' + user.login + '&currentPage='+ this.state.currentPageNumber
 							}} >{user.login}</Link>
 						</Td>
 						<Td>
-							<img src={user.avatar_url} className="avatar" />
+							<img src={user.avatar_url} className="avatar" alt="avatar" />
 						</Td>
 					</Tr>
 				)
 			}
+			else {
+				return null;
+			}
 		});
 
-		if(usersObj.length == 0) {
+		if(usersObj.length === 0) {
 			return <h1 style={{color:'red'}}>No Users Found on Page {this.state.currentPageNumber}</h1>;
 		}
 		else {
@@ -141,7 +139,7 @@ class Users extends Component {
 							<Tr>
 								<Th onClick={this.sortHandler}>
 									User
-									<img src={sortImage} className='sortImage' />
+									<img src={sortImage} className='sortImage' alt='Sort' />
 								</Th>
 								<Th>Avatar</Th>
 							</Tr>
@@ -150,6 +148,8 @@ class Users extends Component {
 							{users}
 						</Tbody>
 					</Table>
+					<br />
+					<br />
 				</div>
 			);
 		}
